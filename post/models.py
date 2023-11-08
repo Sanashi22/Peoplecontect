@@ -10,8 +10,12 @@ class Post (models.Model):
     created=models.DateTimeField(auto_now_add=True) # date is fixed
     updated=models.DateTimeField(auto_now=True) # date will be updated
 
+
     def __str__(self):
         return f"{self.author.username} created post at {self.updated}"
+    
+    def get_all_comments(self):
+        return self.comment_set.all()
     
     class Meta: 
         ordering=["-updated"] # current updated post will be on top
@@ -28,4 +32,5 @@ class Comment(models.Model):
     
     class Meta: 
         ordering=["-updated"]
+
     
