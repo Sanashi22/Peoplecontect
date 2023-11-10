@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+{% load django_bootstrap5 %}
+{%block content%}
+<h2>
+    update profile
+    </h2>
+<form method="post" enctype="multipart/form-data"> # prfile 
+
+    {%csrf_token%}
+    {% bootstrap_form form %}
+    
+    <input value="update profile" type="submit" class="btn btn-primary">
+    </form>
+
+ {%endblock%}
