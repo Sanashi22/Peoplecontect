@@ -25,7 +25,9 @@
     <i class="fab fa-skype fa-lg"></i>
     </button>
     </div>
+    {%if request.user == profile.user %}
     <a class="btn btn-primary" href="{%url 'profiles:update-profile'%}" role="button">update profile</a>
+    {%endif%}
     <div class="d-flex justify-content-between text-center mt-5 mb-2">
     <div>
     <p class="mb-2 h5">{{post_count}}</p>

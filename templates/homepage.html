@@ -14,9 +14,34 @@
     <img src="{{post.image.url}}" class="card-img-top" alt="{{post.content}}">
     {%endif%}
     <div class="card-body">
-      <h5 class="card-title">{{post.content}}</h5>
-      <p class="card-text">{{post.author.username}}</p>
+     
       
+      <div class="ms-5 d-flex">
+        <h5 class="card-title">{{post.content}}</h5>
+        {%if request.user == post.author%}
+
+         <a class="btn btn-danger" href="{%url 'post:delete-post' post.id %}" role="button">delete</a></button>
+        <a class="btn btn-secondary" href="{%url 'post:update-post' post.id %}" role="button">update</a></button>
+        {%endif%}
+
+    </div>
+    <p class="card-text">{{post.author.username}}</p>
+    <p>
+        Comments ({{post.comment_set.count}})
+    </p>
+    <form method="post" >
+
+        {%csrf_token%}
+        {% bootstrap_form c_form %}
+        <input type="hidden" value="{{post.id}}" name="post_id">
+        
+        <input value="comment" name="comment_button" type="submit" class="btn btn-primary">
+        </form>
+        {%for comment in post.get_all_comments%}
+        <p>
+            {{comment.comment}}
+        </p>
+        {%endfor%}
     </div>
   </div>
  {%endfor%}
@@ -26,8 +51,9 @@
 
             {%csrf_token%}
             {% bootstrap_form form %}
+           
             
-            <input value="Add new post" type="submit" class="btn btn-primary">
+            <input value="Add new post" name="post_button" type="submit" class="btn btn-primary">
             </form>  
     </div>
 </div>
