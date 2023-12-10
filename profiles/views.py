@@ -5,6 +5,7 @@ from .models import Profile
 from django.contrib.auth.decorators import login_required
 from post.models import Post
 from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 def user_login(request):
@@ -22,6 +23,7 @@ def user_login(request):
     context= {"form": forms }
     return render(request,"login.html", context)
 
+
 def signup(request):
     forms=Signupform()
     if request.method=="POST":
@@ -34,7 +36,6 @@ def signup(request):
     return render(request,"signup.html",context)
 
 @login_required(login_url='/profiles/login')
-
 def update_profile(request):
     profile= Profile.objects.get(user= request.user) 
     forms=UserUpdateForm(instance=profile) 
@@ -63,12 +64,12 @@ def user_logout(request):
     return redirect("/profiles/login")
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(LoginRequiredMixin,DetailView):
     model= Profile
     pk_url_kwarg = 'pk'
     template_name= 'profile.html'
     
-
+@login_required(login_url='/profile/login')
 def get_all_user(request):
     profiles= Profile.objects.exclude(user=request.user)
     context= {'profiles': profiles}

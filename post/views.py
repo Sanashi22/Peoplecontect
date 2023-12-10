@@ -4,6 +4,7 @@ from .models import Post
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required(login_url='/profile/login')
 def homepage(request):
     form= PostForm()
     c_form= CommentForm()
